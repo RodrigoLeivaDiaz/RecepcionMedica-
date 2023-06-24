@@ -13,53 +13,65 @@ public class PacienteService : IPacienteService
         _MvcMedicoContext = context;
     }
 
-    public void Create(Paciente obj)
+    public void Create(Paciente paciente)
     {
-        _MvcMedicoContext.Add(obj);
+        _MvcMedicoContext.Add(paciente);
         _MvcMedicoContext.SaveChanges();
     }
 
-    public void Delete(int id)
+    public void Delete(Paciente obj)
     {
-        var obj = GetById(id);
         
         if (obj != null){
             _MvcMedicoContext.Remove(obj);
             _MvcMedicoContext.SaveChanges();
         }
     }
-    public List<Paciente> GetAll()
+
+    public async Task<Paciente> Details(int? id)
+{
+    var paciente = await _MvcMedicoContext.Paciente
+            .Include(p => p.Medico)
+            .FirstOrDefaultAsync(m => m.Id == id);
+
+    if (paciente == null)
     {
-        var query = GetQuery();
-        return query.ToList();
+        // Handle null case here
+        return null;
     }
 
-    public List<Paciente> GetAll(string filter)
+    return paciente;                
+}
+
+    public Paciente? Edit(int? id)
+{
+    if(id == null)
     {
-        var query = GetQuery();
-
-        if (!string.IsNullOrEmpty(filter))
-        {
-            query = query.Where(x => x.NombreCompleto.Contains(filter));
-        }
-
-        return query.ToList();
+        // Handle null case here
+        return null;
     }
 
-    public Paciente? GetById(int id)
+    var paciente = _MvcMedicoContext.Paciente.Find(id);
+
+    if (paciente == null)
     {
-
-        var paciente = GetQuery()
-                .Include(x=> x.NombreCompleto)
-                .FirstOrDefault(m => m.Id == id);
-
-        return paciente;
+        // Handle null case here
+        return null;
     }
 
-    public void Update(Paciente obj)
+    return paciente;  
+}
+
+    public async Task<Paciente> GetById(int id)
     {
-        _MvcMedicoContext.Update(obj);
-        _MvcMedicoContext.SaveChanges();
+    var paciente = await _MvcMedicoContext.Paciente.FindAsync(id);
+    
+    return paciente;
+    }
+
+    Paciente? IPacienteService.GetById(int id)
+    {
+        throw new NotImplementedException();
     }
 
     private IQueryable<Paciente> GetQuery()

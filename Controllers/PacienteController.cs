@@ -8,12 +8,14 @@ using Microsoft.EntityFrameworkCore;
 using RecepcionMedica.Data;
 using RecepcionMedica.Models;
 using recepcionMedica.ViewModels;
+using RecepcionMedica.Services;
 
 namespace recepcionMedica.Controllers
 {
     public class PacienteController : Controller
     {
         private readonly MvcMedicoContext _context;
+        private IPacienteService _pacienteService;
 
         public PacienteController(MvcMedicoContext context)
         {
@@ -51,16 +53,14 @@ namespace recepcionMedica.Controllers
         }
 
         // GET: Paciente/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public IActionResult Details(int? id)
         {
             if (id == null || _context.Paciente == null)
             {
                 return NotFound();
             }
 
-            var paciente = await _context.Paciente
-                .Include(p => p.Medico)
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var paciente = _pacienteService.Details(id);
             if (paciente == null)
             {
                 return NotFound();
@@ -85,8 +85,8 @@ namespace recepcionMedica.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(paciente);
-                await _context.SaveChangesAsync();
+                _pacienteService.Create(paciente);
+                
                 return RedirectToAction(nameof(Index));
             }
             ViewData["MedicoId"] = new SelectList(_context.Set<Medico>(), "Id", "Id", paciente.MedicoId);
@@ -94,14 +94,14 @@ namespace recepcionMedica.Controllers
         }
 
         // GET: Paciente/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public IActionResult Edit(int? id)
         {
             if (id == null || _context.Paciente == null)
             {
                 return NotFound();
             }
 
-            var paciente = await _context.Paciente.FindAsync(id);
+            var paciente = _pacienteService.Edit(id);
             if (paciente == null)
             {
                 return NotFound();
@@ -170,17 +170,21 @@ namespace recepcionMedica.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
+         
             if (_context.Paciente == null)
             {
                 return Problem("Entity set 'MvcMedicoContext.Paciente'  is null.");
             }
-            var paciente = await _context.Paciente.FindAsync(id);
+            
+            var paciente = _pacienteService.GetById(id);
+
             if (paciente != null)
             {
-                _context.Paciente.Remove(paciente);
+                _pacienteService.Delete(paciente);
             }
             
             await _context.SaveChangesAsync();
+
             return RedirectToAction(nameof(Index));
         }
 
