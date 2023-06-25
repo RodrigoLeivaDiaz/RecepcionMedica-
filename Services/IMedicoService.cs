@@ -5,9 +5,9 @@ namespace RecepcionMedica.Services;
 public interface IMedicoService
 {
     void Create(Medico obj);
-    List<Medico> GetAll(string filter);
-    List<Medico> GetAll();
-    void Delete(int id);
+    void Delete(Medico id);
     Medico? GetById(int id);
+    Medico? Details(int? id);
+    Medico? Edit(int? id);
 
 }

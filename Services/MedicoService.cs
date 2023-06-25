@@ -13,53 +13,47 @@ public class MedicoService : IMedicoService
         _MvcMedicoContext = context;
     }
 
-    public void Create(Medico obj)
+    public void Create(Medico medico)
     {
-        _MvcMedicoContext.Add(obj);
+        _MvcMedicoContext.Add(medico);
         _MvcMedicoContext.SaveChanges();
     }
 
-    public void Delete(int id)
+    public void Delete(Medico medico)
     {
-        var obj = GetById(id);
-        
-        if (obj != null){
-            _MvcMedicoContext.Remove(obj);
+        if (medico != null){
+            _MvcMedicoContext.Remove(medico);
             _MvcMedicoContext.SaveChanges();
         }
     }
-    public List<Medico> GetAll()
+
+    public Medico Details(int? id)
     {
-        var query = GetQuery();
-        return query.ToList();
+        var medico = _MvcMedicoContext.Medico
+                .Include(m => m.Especialidad)
+                .FirstOrDefault(m => m.Id == id);
+            
+        if (medico == null)
+    {
+        return null;
     }
 
-    public List<Medico> GetAll(string filter)
+        return medico;
+    }
+
+    public Medico? Edit(int? id)
     {
-        var query = GetQuery();
+        var medico =  _MvcMedicoContext.Medico.Find(id);
 
-        if (!string.IsNullOrEmpty(filter))
-        {
-            query = query.Where(x => x.NombreCompleto.Contains(filter));
-        }
-
-        return query.ToList();
+        return medico;
     }
 
     public Medico? GetById(int id)
     {
 
-        var medico = GetQuery()
-                .Include(x=> x.NombreCompleto)
-                .FirstOrDefault(m => m.Id == id);
+        var medico = _MvcMedicoContext.Medico.Find(id);
 
         return medico;
-    }
-
-    public void Update(Medico obj)
-    {
-        _MvcMedicoContext.Update(obj);
-        _MvcMedicoContext.SaveChanges();
     }
 
     private IQueryable<Medico> GetQuery()

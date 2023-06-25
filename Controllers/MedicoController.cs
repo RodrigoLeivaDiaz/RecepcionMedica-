@@ -8,12 +8,14 @@ using Microsoft.EntityFrameworkCore;
 using RecepcionMedica.Data;
 using RecepcionMedica.Models;
 using recepcionMedica.ViewModels;
+using RecepcionMedica.Services;
 
 namespace RecepcionMedica.Controllers
 {
     public class MedicoController : Controller
     {
         private readonly MvcMedicoContext _context;
+        private IMedicoService _medicoService;
 
         public MedicoController(MvcMedicoContext context)
         {
@@ -58,9 +60,8 @@ namespace RecepcionMedica.Controllers
                 return NotFound();
             }
 
-            var medico = await _context.Medico
-                .Include(m => m.Especialidad)
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var medico = _medicoService.Details(id);
+
             if (medico == null)
             {
                 return NotFound();
@@ -97,8 +98,7 @@ namespace RecepcionMedica.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(medico);
-                await _context.SaveChangesAsync();
+                _medicoService.Create(medico);
                 return RedirectToAction(nameof(Index));
             }
             ViewData["EspecialidadId"] = new SelectList(_context.Especialidad, "Id", "Id", medico.EspecialidadId);
@@ -113,7 +113,7 @@ namespace RecepcionMedica.Controllers
                 return NotFound();
             }
 
-            var medico = await _context.Medico.FindAsync(id);
+            var medico = _medicoService.Edit(id);
             if (medico == null)
             {
                 return NotFound();
@@ -186,10 +186,10 @@ namespace RecepcionMedica.Controllers
             {
                 return Problem("Entity set 'MvcMedicoContext.Medico'  is null.");
             }
-            var medico = await _context.Medico.FindAsync(id);
+            var medico = _medicoService.GetById(id);
             if (medico != null)
             {
-                _context.Medico.Remove(medico);
+                _medicoService.Delete(medico);
             }
             
             await _context.SaveChangesAsync();
