@@ -5,10 +5,9 @@ namespace RecepcionMedica.Services;
 public interface IEspecialidadService
 {
     void Create(Especialidad obj);
-    List<Especialidad> GetAll(string filter);
-    List<Especialidad> GetAll();
-    void Update(Especialidad obj);
-    void Delete(int id);
+    void Delete(Especialidad id);
     Especialidad? GetById(int id);
+    Especialidad? Details(int? id);
+    Especialidad? Edit(int? id);
 
 }

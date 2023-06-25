@@ -8,12 +8,14 @@ using Microsoft.EntityFrameworkCore;
 using RecepcionMedica.Data;
 using RecepcionMedica.Models;
 using recepcionMedica.ViewModels;
+using RecepcionMedica.Services;
 
 namespace RecepcionMedica.Controllers
 {
     public class EspecialidadController : Controller
     {
         private readonly MvcMedicoContext _context;
+        private IEspecialidadService _especialidadService;
 
         public EspecialidadController(MvcMedicoContext context)
         {
@@ -37,8 +39,7 @@ namespace RecepcionMedica.Controllers
                 return NotFound();
             }
 
-            var especialidad = await _context.Especialidad
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var especialidad = _especialidadService.Details(id);
             if (especialidad == null)
             {
                 return NotFound();
@@ -69,8 +70,7 @@ namespace RecepcionMedica.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(especialidad);
-                await _context.SaveChangesAsync();
+                _especialidadService.Create(especialidad);
                 return RedirectToAction(nameof(Index));
             }
             return View(especialidad);
@@ -84,7 +84,7 @@ namespace RecepcionMedica.Controllers
                 return NotFound();
             }
 
-            var especialidad = await _context.Especialidad.FindAsync(id);
+            var especialidad = _especialidadService.Edit(id);
             if (especialidad == null)
             {
                 return NotFound();
@@ -154,10 +154,10 @@ namespace RecepcionMedica.Controllers
             {
                 return Problem("Entity set 'MvcMedicoContext.Especialidad'  is null.");
             }
-            var especialidad = await _context.Especialidad.FindAsync(id);
+            var especialidad = _especialidadService.GetById(id);
             if (especialidad != null)
             {
-                _context.Especialidad.Remove(especialidad);
+                _especialidadService.Delete(especialidad);
             }
             
             await _context.SaveChangesAsync();

@@ -13,53 +13,47 @@ public class EspecialidadService : IEspecialidadService
         _MvcMedicoContext = context;
     }
 
-    public void Create(Especialidad obj)
+    public void Create(Especialidad especialidad)
     {
-        _MvcMedicoContext.Add(obj);
+        _MvcMedicoContext.Add(especialidad);
         _MvcMedicoContext.SaveChanges();
     }
 
-    public void Delete(int id)
+    public void Delete(Especialidad especialidad)
     {
-        var obj = GetById(id);
-        
-        if (obj != null){
-            _MvcMedicoContext.Remove(obj);
+        if (especialidad != null){
+            _MvcMedicoContext.Remove(especialidad);
             _MvcMedicoContext.SaveChanges();
         }
     }
+
+    public Especialidad? Details(int? id)
+    {
+        var especialidad = _MvcMedicoContext.Especialidad
+                .FirstOrDefault(m => m.Id == id);
+
+                return especialidad;
+    }
+
+    public Especialidad? Edit(int? id)
+    {
+        var especialidad =_MvcMedicoContext.Especialidad.Find(id);
+
+        return especialidad;
+    }
+
     public List<Especialidad> GetAll()
     {
         var query = GetQuery();
         return query.ToList();
     }
 
-    public List<Especialidad> GetAll(string filter)
-    {
-        var query = GetQuery();
-
-        if (!string.IsNullOrEmpty(filter))
-        {
-            query = query.Where(x => x.NombreEspecialidad.Contains(filter));
-        }
-
-        return query.ToList();
-    }
-
     public Especialidad? GetById(int id)
     {
 
-        var medicos = GetQuery()
-                .Include(x=> x.Medicos)
-                .FirstOrDefault(m => m.Id == id);
+        var especialidad = _MvcMedicoContext.Especialidad.Find(id);
 
-        return medicos;
-    }
-
-    public void Update(Especialidad obj)
-    {
-        _MvcMedicoContext.Update(obj);
-        _MvcMedicoContext.SaveChanges();
+        return especialidad;
     }
 
     private IQueryable<Especialidad> GetQuery()
