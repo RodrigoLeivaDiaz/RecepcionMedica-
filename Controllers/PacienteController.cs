@@ -17,8 +17,9 @@ namespace recepcionMedica.Controllers
         private readonly MvcMedicoContext _context;
         private IPacienteService _pacienteService;
 
-        public PacienteController(MvcMedicoContext context)
+        public PacienteController(IPacienteService pacienteService,MvcMedicoContext context)
         {
+            _pacienteService = pacienteService;
             _context = context;
         }
 

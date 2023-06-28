@@ -14,20 +14,20 @@ namespace RecepcionMedica.Controllers
 {
     public class EspecialidadController : Controller
     {
-        private readonly MvcMedicoContext _context;
+        private MvcMedicoContext _context;
         private IEspecialidadService _especialidadService;
 
-        public EspecialidadController(MvcMedicoContext context)
+        public EspecialidadController(IEspecialidadService especialidadService,MvcMedicoContext context)
         {
-            _context = context;
+            _especialidadService = especialidadService;
+            _context = context;            
         }
 
         // GET: Especialidad
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-              return _context.Especialidad != null ? 
-                          View(await _context.Especialidad.ToListAsync()) :
-                          Problem("Entity set 'MvcMedicoContext.Especialidad'  is null.");
+            var list = _especialidadService.GetAll();
+            return View(list);
         }
 
         // GET: Especialidad/Details/5

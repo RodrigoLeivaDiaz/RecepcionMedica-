@@ -14,11 +14,12 @@ namespace RecepcionMedica.Controllers
 {
     public class MedicoController : Controller
     {
-        private readonly MvcMedicoContext _context;
+        private MvcMedicoContext _context;
         private IMedicoService _medicoService;
 
-        public MedicoController(MvcMedicoContext context)
+        public MedicoController(IMedicoService medicoService,MvcMedicoContext context)
         {
+            _medicoService = medicoService;
             _context = context;
         }
 

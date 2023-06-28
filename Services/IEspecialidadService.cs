@@ -9,5 +9,6 @@ public interface IEspecialidadService
     Especialidad? GetById(int id);
     Especialidad? Details(int? id);
     Especialidad? Edit(int? id);
+    List<Especialidad> GetAll();
 
 }

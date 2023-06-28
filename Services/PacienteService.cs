@@ -71,7 +71,9 @@ public class PacienteService : IPacienteService
 
     Paciente? IPacienteService.GetById(int id)
     {
-        throw new NotImplementedException();
+        var paciente = _MvcMedicoContext.Paciente.Find(id);
+
+        return paciente;
     }
 
     private IQueryable<Paciente> GetQuery()
