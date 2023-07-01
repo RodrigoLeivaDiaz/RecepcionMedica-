@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RecepcionMedica.Data;
 
@@ -10,9 +11,11 @@ using RecepcionMedica.Data;
 namespace RecepcionMedica.Migrations
 {
     [DbContext(typeof(MvcMedicoContext))]
-    partial class MvcMedicoContextModelSnapshot : ModelSnapshot
+    [Migration("20230701221438_add Identity2")]
+    partial class addIdentity2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.8");

@@ -12,6 +12,7 @@ builder.Services.AddDbContext<MvcMedicoContext>(options =>
 
 // Add services to the container.
 
+
 builder.Services.AddDefaultIdentity<IdentityUser>()
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<MvcMedicoContext>();

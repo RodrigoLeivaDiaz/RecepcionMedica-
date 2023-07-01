@@ -284,3 +284,6 @@ C:\Users\Puma\Desktop\Materias 2022\Materias 2023\HerramientasDeProgramacion\rec
 C:\Users\Puma\Desktop\Materias 2022\Materias 2023\HerramientasDeProgramacion\recepcionMedica\bin\Debug\net7.0\Microsoft.Extensions.Identity.Core.dll
 C:\Users\Puma\Desktop\Materias 2022\Materias 2023\HerramientasDeProgramacion\recepcionMedica\bin\Debug\net7.0\Microsoft.Extensions.Identity.Stores.dll
 C:\Users\Puma\Desktop\Materias 2022\Materias 2023\HerramientasDeProgramacion\recepcionMedica\bin\Debug\net7.0\Microsoft.Extensions.Options.dll
+C:\Users\Puma\Desktop\Materias 2022\Materias 2023\HerramientasDeProgramacion\recepcionMedica\bin\Debug\net7.0\Microsoft.AspNetCore.Identity.UI.dll
+C:\Users\Puma\Desktop\Materias 2022\Materias 2023\HerramientasDeProgramacion\recepcionMedica\bin\Debug\net7.0\Microsoft.Extensions.FileProviders.Embedded.dll
+C:\Users\Puma\Desktop\Materias 2022\Materias 2023\HerramientasDeProgramacion\recepcionMedica\obj\Debug\net7.0\RecepcionMedica.MvcApplicationPartsAssemblyInfo.cs

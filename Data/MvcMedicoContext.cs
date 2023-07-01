@@ -4,10 +4,12 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using RecepcionMedica.Models;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace RecepcionMedica.Data
 {
-    public class MvcMedicoContext : DbContext
+    public class MvcMedicoContext : IdentityDbContext<IdentityUser>
     {
         public MvcMedicoContext (DbContextOptions<MvcMedicoContext> options)
             : base(options)
@@ -31,6 +33,8 @@ namespace RecepcionMedica.Data
         .HasMany(f => f.Pacientes)
         .WithOne(f => f.Medico)
         .HasForeignKey(f => f.MedicoId);
+
+        base.OnModelCreating(modelBuilder);
         }          
     }
 }
