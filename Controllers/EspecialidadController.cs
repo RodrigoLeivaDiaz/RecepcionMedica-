@@ -9,9 +9,11 @@ using RecepcionMedica.Data;
 using RecepcionMedica.Models;
 using recepcionMedica.ViewModels;
 using RecepcionMedica.Services;
+using Microsoft.AspNetCore.Authorization;
 
 namespace RecepcionMedica.Controllers
 {
+    [Authorize]
     public class EspecialidadController : Controller
     {
         private MvcMedicoContext _context;
