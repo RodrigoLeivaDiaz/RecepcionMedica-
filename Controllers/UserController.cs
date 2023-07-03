@@ -9,7 +9,7 @@ using RecepcionMedica.Controllers;
 
 namespace clase11.Controllers;
 
-[Authorize]
+[Authorize(Roles = "Recepcionista")]
 public class UsersController : Controller
 {
     private readonly ILogger<HomeController> _logger;

@@ -7,7 +7,7 @@ using recepcionMedica.Views.Roles.ViewModels;
 
 namespace clase11.Controllers;
 
-
+[Authorize(Roles = "Recepcionista, Administrador")]
 public class RolesController : Controller
 {
     private readonly RoleManager<IdentityRole> _roleManager;

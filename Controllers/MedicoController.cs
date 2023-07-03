@@ -13,7 +13,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace RecepcionMedica.Controllers
 {
-    [Authorize]
+     [Authorize(Roles = "Recepcionista, Administrador")]
     public class MedicoController : Controller
     {
         private MvcMedicoContext _context;
